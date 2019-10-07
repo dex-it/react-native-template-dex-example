@@ -1,0 +1,23 @@
+# For more information about this configuration visit
+# https://github.com/fastlane/fastlane/tree/master/gym#gymfile
+
+# In general, you can use the options available
+# fastlane gym --help
+
+# Remove the # in front of the line to enable the option
+
+scheme ENV["APP_NAME"]
+# sdk "iphoneos9.0"
+
+output_directory ENV["BUILD_DIR"]
+export_method "ad-hoc"
+clean false
+# codesigning_identity 
+
+for_lane :release do
+    export_options(
+    method: "app-store",
+    provisioningProfiles: { 
+        "com.dev.trucker" => "match AppStore com.dev.trucker",
+    })
+end

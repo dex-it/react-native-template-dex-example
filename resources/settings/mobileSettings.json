@@ -1,0 +1,34 @@
+{
+  "appName": "trucker",
+  "environment": "Production",
+  "serverUrl": "http://testserver.com",
+  "identityUrl": "insert some here",
+  "bugReportApiKey": "1fb49b4c382fb8d06ab54c3e150d0810",
+  "useBugReporter": false,
+  "loggerUrl": "",
+  "version": "1.0",
+  "build": 1,
+  "fetchTimeout": 10000,
+  "uploadTimeout": 60000,
+  "showVersion": false,
+  "devOptions": {
+    "useTestCase": false,
+    "disableReduxLogger": false,
+    "showAllComponentsOnStart": false,
+    "purgeStateOnStart": false,
+    "reduxLoggerWhiteList": [
+      ""
+    ],
+    "reduxLogger": {
+      "diff": false
+    },
+    "androidHockeyOptions": {
+      "appId": "insert some here",
+      "apiToken": "insert some here"
+    },
+    "iOSHockeyOptions": {
+      "appId": "insert some here",
+      "apiToken": "insert some here"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+# Home
+# https://github.com/fastlane/fastlane
+
+# Install
+# brew cask install fastlane
+
+# Update provisions
+# fastlane match adhoc
+# fastlane match development
+# fastlane match appstore
+
+# Clear provisions
+# fastlane match nuke development
+
+# cd ~/Library/MobileDevice/Provisioning\ Profiles
+
+type "development" # The default type, can be: appstore, adhoc or development
+force false # re-generate the provisioning profile on each run
+force_for_new_devices true
+readonly true

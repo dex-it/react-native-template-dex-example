@@ -1,0 +1,6 @@
+{
+  "loggerUrl": "insert some here",
+  "serverUrl": "http://testserver.com",
+  "useBugReporter": false,
+  "showVersion": false
+}

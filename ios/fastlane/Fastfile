@@ -1,0 +1,119 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Advanced.md
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/UI.md
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.25.0"
+
+default_platform :ios
+
+platform :ios do
+
+  # Gives a hockeyApp dowload url for this build
+  def hockey_build_download_url
+    hockey_build_number = lane_context[SharedValues::HOCKEY_BUILD_INFORMATION]['config_url'].split('/')[-1]
+    hockeyurl = lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK] + "/app_versions/" + hockey_build_number
+  end
+
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    # cocoapods
+
+  end
+
+  desc "Print some debug data"
+  lane :print do |options|
+    UI.message "Debug lane ..."
+    UI.message ENV["PROJECT_DIR"]
+    UI.message ENV["BUILD_DIR"]
+    UI.message ENV["DSYM_ZIP_PATH"]
+    UI.message ENV["IPA_PATH"]
+
+  end
+
+  # desc "Runs all the tests"
+  # lane :test do
+  #   scan
+  # end
+
+  # desc "Submit a new Beta Build to Apple TestFlight"
+  # desc "This will also make sure the profile is up to date"
+  # lane :beta do
+  #   # match(type: "appstore") # more information: https://codesigning.guide
+  #   gym # Build your app - more options available
+  #   pilot
+
+  #   # sh "your_script.sh"
+  #   # You can also use other beta testing services here (run `fastlane actions`)
+  # end
+
+  desc "Build ad-hoc version"
+  lane :adhoc do
+    # cocoapods
+    match(type: "adhoc") # look Matchfile
+    # snapshot
+    gym # look Gymfile
+    ## deliver(force: true)
+  end
+
+  desc "Deliver to HockeyApp"
+  lane :hockeyapp do
+    hockey(
+      api_token: ENV["HOCKEY_API_TOKEN"],
+      public_identifier: ENV["HOCKEY_APP_ID"],
+      status: '2', # 1 - Means do not make available for download; 2 - Make available for download
+      notify: '0', # 0 - Means do not notify; 2 - Notify all testers
+      # upload_dsym_only: true
+      ipa: ENV["IPA_PATH"],
+      dsym: ENV["DSYM_ZIP_PATH"],
+      notes: "Changelog ..."
+    )
+
+    download_url = hockey_build_download_url()
+    UI.success "Version download link: #{download_url}"
+  end
+
+  # desc "Deploy a new version to the App Store"
+  lane :release do
+    match(type: "appstore")
+    gym(export_method: "app-store")
+    testflight(skip_submission: true)
+  end
+
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer

@@ -1,0 +1,118 @@
+{
+  "name": "trucker",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "preinstall": "node tools/forceYarn.js",
+    "postinstall": "node tools/init.js && node tools/postinstallFixes.js",
+    "ts": "tsc -p .",
+    "tsw": "yarn run ts --watch",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start-reset-cache": "node node_modules/react-native/local-cli/cli.js start -- --reset-cache",
+    "android:start": "node node_modules/react-native/local-cli/cli.js run-android --no-packager",
+    "android:start+start": "node node_modules/react-native/local-cli/cli.js run-android --no-packager && node node_modules/react-native/local-cli/cli.js start",
+    "build-release-apk": "(cd android/ && gradlew assembleRelease)",
+    "clean-android": "(cd android/ && gradlew clean)",
+    "bundle-android": "node node_modules/react-native/local-cli/cli.js bundle --platform android --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.map --assets-dest android/app/src/main/res/ --dev false --sourcemap-sources-root=build",
+    "ios:start": "node node_modules/react-native/local-cli/cli.js run-ios --no-packager",
+    "check-dependencies-updates": "yarn outdated",
+    "tests": "jest",
+    "tests:watch": "jest --watchAll",
+    "upload-bugsnag": "node tools/uploadBugsnag.js",
+    "upload-bugsnag:test": "node tools/uploadBugsnag.js --platform=android",
+    "lint": "tslint \"src/**/*.ts\"",
+    "lint-teamcity": "tslint --formatters-dir node_modules/tslint-teamcity-reporter/ --format TSHintTeamcity \"src/**/*.ts\"",
+    "config-setup": "node tools/config-setup.js",
+    "ResourcesGenerator": "generator --dir=resources/images --out=src/common/ImageResources.g.ts"
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.2.4",
+    "bugsnag-react-native": "2.16.0",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "react": "16.8.6",
+    "react-native": "0.59.4",
+    "react-native-dev-menu": "^2.0.2",
+    "react-native-localization": "^2.1.0",
+    "react-native-simple-toast": "0.0.8",
+    "react-navigation": "3.6.1",
+    "react-navigation-redux-helpers": "3.0.0",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "react-native-reanimated": "^1.0.0-alpha.12",
+    "react-native-gesture-handler": "^1.1.0",
+    "redux-persist": "^5.10.0",
+    "redux-promise": "^0.6.0",
+    "redux-stack": "^1.0.1",
+    "redux-thunk": "^2.3.0",
+    "reflect-metadata": "^0.1.13",
+    "reselect": "^4.0.0",
+    "rn-fetch-blob": "^0.10.15",
+    "typescript-fsa": "3.0.0-beta-2",
+    "typescript-fsa-reducers": "^1.2.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/runtime": "^7.4.3",
+    "@types/jest": "^24.0.11",
+    "@types/lodash": "^4.14.123",
+    "@types/react": "16.8.13",
+    "@types/react-native": "0.57.42",
+    "@types/react-redux": "^7.0.6",
+    "@types/redux-logger": "^3.0.7",
+    "@types/redux-promise": "^0.5.28",
+    "babel-jest": "24.7.1",
+    "bugsnag-sourcemaps": "^1.1.0",
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^5.0.5",
+    "gulp-hockeyapp": "0.2.4",
+    "husky": "^1.3.1",
+    "image-resource-generator": "git+http://git.dextechnology.com/rn-components/image-resource-generator.git#master",
+    "jest": "24.7.1",
+    "jest-teamcity-reporter": "^0.9.0",
+    "load-json-file": "^5.3.0",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.6",
+    "ts-jest": "24.0.2",
+    "tslint": "^5.15.0",
+    "tslint-react": "^4.0.0",
+    "tslint-teamcity-reporter": "^3.2.2",
+    "typescript": "3.4.2",
+    "write-json-file": "^3.2.0"
+  },
+  "jest": {
+    "preset": "react-native",
+    "testPathIgnorePatterns": [
+      "node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testResultsProcessor": "jest-teamcity-reporter",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tsconfig.jest.json"
+      }
+    }
+  },
+  "rnpm": {
+    "assets": [
+      "./resources/fonts"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn run ts"
+    }
+  }
+}
