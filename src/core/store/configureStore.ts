@@ -42,7 +42,7 @@ export function configureStore(
     migrateStore.set(MigrateStoreMode.resetStatePreserveToken, resetState);
     migrateStore.set(MigrateStoreMode.resetStateWithToken, resetStateWithToken);
 
-    const persistConfig: PersistConfig = {
+    const persistConfig: PersistConfig<IAppState> = {
         key: "root",
         storage: AsyncStorage,
         debug: appSettingsProvider.settings.environment == "Development",

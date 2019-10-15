@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-import-side-effect
 import _ from "lodash";
 import {NavigationActions, NavigationComponent, NavigationNavigator, NavigationState} from "react-navigation";
 import {createReactNavigationReduxMiddleware, createReduxContainer} from "react-navigation-redux-helpers";
@@ -51,13 +52,13 @@ export function reduxHelper(config: Config<INavigationState>): INavigationConfig
     });
 
     return {
-        getNavigationComponent: (key): NavigationComponent => objects[key].navigationComponent,
+        getNavigationComponent: (key): NavigationComponent => objects[key]!.navigationComponent,
         getReducer: (): Reducers<INavigationState> =>
             _.mapValues(objects, (i: INavigationConfigItem) => i.reducer) as any,
         getCombinedInitialState: (): INavigationState =>
             _.mapValues(objects, (i: INavigationConfigItem) => i.initialState) as any,
         reduxStack: {
-            enhancers: _.values(objects).map(i => applyMiddleware(i.middleware))
+            enhancers: _.values(objects).map(i => applyMiddleware(i!.middleware))
         }
     };
 }
