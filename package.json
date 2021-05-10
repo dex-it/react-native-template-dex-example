@@ -29,7 +29,7 @@
     "@react-native-community/async-storage": "1.2.4",
     "bugsnag-react-native": "2.23.2",
     "jwt-decode": "2.2.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "moment": "2.24.0",
     "react": "16.8.6",
     "react-native": "0.59.4",
